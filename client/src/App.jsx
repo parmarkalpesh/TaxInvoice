@@ -61,7 +61,7 @@ function App() {
         {/* Footer */}
         <footer className="footer no-print">
           <div className="container">
-            <p>&copy; {new Date().getFullYear()} BillPro. Professional Billing Made Simple.</p>
+            <p>&copy; {new Date().getFullYear()} BillPro. Software is Manage by MadhavTech.</p>
           </div>
         </footer>
       </div>

@@ -511,64 +511,152 @@ body {
    Print Styles
 =================================== */
 
-.print-close-btn {
+/* Print Controls Bar */
+.print-controls {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  width: 48px;
-  height: 48px;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 50%;
-  cursor: pointer;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   z-index: 1000;
+}
+
+.print-close-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  cursor: pointer;
   transition: var(--transition);
 }
 
 .print-close-btn:hover {
-  background: var(--bg-tertiary);
+  background: var(--border-color);
 }
 
+.paper-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.paper-selector select {
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: white;
+  cursor: pointer;
+}
+
+.print-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.print-btn:hover {
+  background: var(--primary-hover);
+}
+
+/* Print Container */
 .print-container {
-  background: #f0f0f0;
+  background: #e8e8e8;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  padding: 2rem;
+  align-items: flex-start;
+  padding: 5rem 1rem 2rem;
 }
 
+/* Invoice Print Base */
 .invoice-print {
-  width: 210mm;
-  min-height: 297mm;
-  max-width: 100%;
-  padding: 15mm 20mm;
+  width: 100%;
+  padding: 8mm 10mm;
   background: white;
   font-family: 'Inter', -apple-system, sans-serif;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   color: #000;
+  font-size: 12px;
+}
+
+/* Paper Size Specific Styles */
+.paper-a4 .invoice-print {
+  max-width: 210mm;
+}
+
+.paper-a5 .invoice-print {
+  max-width: 148mm;
+  padding: 6mm 8mm;
+  font-size: 10px;
+}
+
+.paper-a5 .shop-name {
+  font-size: 1.25rem;
+}
+
+.paper-a5 .invoice-title-bar h2 {
+  font-size: 0.875rem;
+}
+
+.paper-a5 .print-items-table th,
+.paper-a5 .print-items-table td {
+  padding: 0.25rem 0.375rem;
+  font-size: 9px;
+}
+
+.paper-a5 .col-gst,
+.paper-a5 .col-price {
+  display: none;
+}
+
+.paper-letter .invoice-print {
+  max-width: 216mm;
+}
+
+.paper-legal .invoice-print {
+  max-width: 216mm;
 }
 
 /* Header */
 .print-header {
   text-align: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 3px double #000;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px double #000;
 }
 
 .shop-info {
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .shop-name {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 0.25rem;
-  letter-spacing: 0.05em;
+  margin-bottom: 0.125rem;
+  letter-spacing: 0.03em;
 }
 
 .shop-address,
@@ -756,33 +844,17 @@ body {
   margin: 0;
 }
 
-/* Footer */
-.print-footer {
+/* Signature Section */
+.signature-section {
   display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #ddd;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.footer-left {
-  max-width: 60%;
-}
-
-.footer-left p {
-  font-size: 0.75rem;
-  margin-bottom: 0.125rem;
-  color: #666;
-}
-
-.footer-left p:first-child {
-  color: #000;
-  margin-bottom: 0.375rem;
-}
-
-.footer-right {
+.signature-box {
   text-align: center;
-  min-width: 150px;
+  min-width: 180px;
 }
 
 .auth-sig {
@@ -801,18 +873,37 @@ body {
   font-weight: 600;
 }
 
-/* Thank You */
-.thank-you {
-  text-align: center;
+/* Computer Generated Notice */
+.computer-generated {
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 2px solid #000;
+  border-top: 1px dashed #ccc;
+  text-align: center;
 }
 
-.thank-you p {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: #333;
+.generated-text {
+  font-size: 0.75rem;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.madhav-tech-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  color: #666;
+}
+
+.madhav-logo {
+  height: 20px;
+  width: auto;
+}
+
+.madhav-tech-info p {
+  margin: 0;
 }
 
 /* Print Media Query */
@@ -821,22 +912,158 @@ body {
     background: white !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    margin: 0;
+    padding: 0;
   }
 
-  .no-print {
+  .no-print,
+  .header,
+  .footer,
+  .print-controls {
     display: none !important;
   }
 
   .print-container {
     padding: 0;
+    margin: 0;
     background: white;
+    min-height: auto;
   }
 
   .invoice-print {
     width: 100%;
-    padding: 10mm 15mm;
+    max-width: 100%;
+    padding: 4mm;
+    margin: 0;
     box-shadow: none;
-    min-height: auto;
+    min-height: 100vh;
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-header {
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+  }
+
+  .shop-name {
+    font-size: 16pt;
+  }
+
+  .shop-address,
+  .shop-contact {
+    font-size: 9pt;
+  }
+
+  .invoice-title-bar {
+    padding: 2mm 4mm;
+    margin-bottom: 3mm;
+  }
+
+  .invoice-title-bar h2 {
+    font-size: 10pt;
+  }
+
+  .invoice-details-row {
+    margin-bottom: 3mm;
+  }
+
+  .customer-box {
+    padding: 3mm;
+  }
+
+  .customer-box h3 {
+    font-size: 8pt;
+  }
+
+  .customer-name-print {
+    font-size: 10pt;
+  }
+
+  .customer-box p {
+    font-size: 9pt;
+  }
+
+  .meta-table td {
+    padding: 1.5mm 2mm;
+    font-size: 9pt;
+  }
+
+  .print-items-table {
+    margin-bottom: 3mm;
+  }
+
+  .print-items-table th {
+    padding: 2mm;
+    font-size: 8pt;
+  }
+
+  .print-items-table td {
+    padding: 1.5mm 2mm;
+    font-size: 9pt;
+  }
+
+  .print-totals-section {
+    margin-bottom: 2mm;
+  }
+
+  .totals-box {
+    width: auto;
+    min-width: 50mm;
+  }
+
+  .totals-box .total-line {
+    padding: 1.5mm 3mm;
+    font-size: 9pt;
+  }
+
+  .totals-box .total-line.grand {
+    font-size: 10pt;
+  }
+
+  .amount-words {
+    padding: 2mm 3mm;
+    margin-bottom: 3mm;
+    font-size: 9pt;
+  }
+
+  .signature-section {
+    margin-top: 3mm;
+    margin-bottom: 2mm;
+  }
+
+  .auth-sig {
+    margin-bottom: 8mm;
+    font-size: 8pt;
+  }
+
+  .sig-line {
+    width: 40mm;
+    margin: 0 auto 2mm;
+  }
+
+  .shop-name-footer {
+    font-size: 9pt;
+  }
+
+  .computer-generated {
+    margin-top: auto;
+    padding-top: 2mm;
+    border-top: 0.5pt dashed #ccc;
+  }
+
+  .generated-text {
+    font-size: 7pt;
+    margin-bottom: 2mm;
+  }
+
+  .madhav-logo {
+    height: 12px;
+  }
+
+  .madhav-tech-info {
+    font-size: 7pt;
   }
 
   .invoice-title-bar,
@@ -845,10 +1072,75 @@ body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
 
-  @page {
-    size: A4;
-    margin: 8mm;
+/* A4 Portrait - Default */
+@media print {
+  .paper-a4 {
+    /* A4: 210mm x 297mm */
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 5mm;
+}
+
+/* A5 Landscape */
+.paper-a5 {
+  /* Will be handled by specific @page */
+}
+
+@media print {
+  .paper-a5 .invoice-print {
+    font-size: 9px;
+  }
+
+  .paper-a5 .shop-name {
+    font-size: 14pt;
+  }
+
+  .paper-a5 .invoice-title-bar h2 {
+    font-size: 9pt;
+  }
+
+  .paper-a5 .print-items-table th {
+    font-size: 7pt;
+  }
+
+  .paper-a5 .print-items-table td {
+    font-size: 8pt;
+    padding: 1mm 1.5mm;
+  }
+
+  .paper-a5 .col-gst {
+    display: none;
+  }
+
+  .paper-a5 .totals-box .total-line {
+    font-size: 8pt;
+  }
+
+  .paper-a5 .amount-words {
+    font-size: 8pt;
+  }
+
+  .paper-a5 .auth-sig {
+    margin-bottom: 5mm;
+  }
+}
+
+/* Letter Size */
+@media print {
+  .paper-letter .invoice-print {
+    /* Letter: 216mm x 279mm */
+  }
+}
+
+/* Legal Size */
+@media print {
+  .paper-legal .invoice-print {
+    /* Legal: 216mm x 356mm */
   }
 }
 
@@ -900,5 +1192,82 @@ body {
   .items-table th:nth-child(3),
   .items-table td:nth-child(3) {
     display: none;
+  }
+}
+
+/* Print Invoice Responsive */
+@media (max-width: 768px) {
+  .print-container {
+    padding: 0.5rem;
+  }
+
+  .invoice-print {
+    padding: 4mm 6mm;
+    font-size: 12px;
+  }
+
+  .shop-name {
+    font-size: 1.25rem;
+  }
+
+  .invoice-title-bar h2 {
+    font-size: 0.875rem;
+  }
+
+  .invoice-details-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .invoice-meta-box {
+    width: 100%;
+  }
+
+  .print-items-table th,
+  .print-items-table td {
+    padding: 0.375rem 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .print-items-table .col-gst {
+    display: none;
+  }
+
+  .totals-box {
+    width: 100%;
+  }
+
+  .print-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-left {
+    max-width: 100%;
+  }
+
+  .madhav-tech-info {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .invoice-print {
+    padding: 3mm 4mm;
+    font-size: 11px;
+  }
+
+  .shop-name {
+    font-size: 1.1rem;
+  }
+
+  .print-items-table .col-price {
+    display: none;
+  }
+
+  .print-items-table .col-qty,
+  .print-items-table .col-total {
+    width: 60px;
   }
 }
