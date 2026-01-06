@@ -4,6 +4,7 @@ import { Printer } from "lucide-react";
 const InvoicePrint = ({ invoice, onClose, loading = false }) => {
   const [displayInvoice, setDisplayInvoice] = useState(null);
   const [displayShop, setDisplayShop] = useState(null);
+  const [paperSize, setPaperSize] = useState("A4");
 
   useEffect(() => {
     // Map invoice data to display format
@@ -36,6 +37,31 @@ const InvoicePrint = ({ invoice, onClose, loading = false }) => {
     }
   }, [invoice]);
 
+  // Inject dynamic print styles based on paper size
+  useEffect(() => {
+    const styleId = "dynamic-print-style";
+    let styleEl = document.getElementById(styleId);
+
+    if (!styleEl) {
+      styleEl = document.createElement("style");
+      styleEl.id = styleId;
+      document.head.appendChild(styleEl);
+    }
+
+    const pageStyles = {
+      A4: "@page { size: A4 portrait; margin: 5mm; }",
+      A5: "@page { size: A5 landscape; margin: 4mm; }",
+    };
+
+    styleEl.textContent = pageStyles[paperSize] || pageStyles["A4"];
+
+    return () => {
+      if (styleEl && styleEl.parentNode) {
+        styleEl.parentNode.removeChild(styleEl);
+      }
+    };
+  }, [paperSize]);
+
   const handlePrint = () => {
     window.print();
   };
@@ -61,19 +87,36 @@ const InvoicePrint = ({ invoice, onClose, loading = false }) => {
 
   return (
     <div className="relative">
-      <button
-        onClick={handlePrint}
-        disabled={loading}
-        className={`print-button no-print ${
-          loading ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-        title="Print Invoice - Fetches latest data from MongoDB"
-      >
-        <Printer size={18} />
-        {loading ? "Fetching Data..." : "Print Invoice"}
-      </button>
+      <div className="print-controls no-print">
+        <button
+          onClick={handlePrint}
+          disabled={loading}
+          className={`print-button ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          title="Print Invoice"
+        >
+          <Printer size={18} />
+          {loading ? "Fetching Data..." : "Print Invoice"}
+        </button>
 
-      <div id={id || "invoice-print"} className="invoice-a4-container">
+        <div className="paper-size-selector no-print">
+          <label htmlFor="paper-size">Paper Size:</label>
+          <select
+            id="paper-size"
+            value={paperSize}
+            onChange={(e) => setPaperSize(e.target.value)}
+          >
+            <option value="A4">A4 (Portrait)</option>
+            <option value="A5">A5 (Landscape)</option>
+          </select>
+        </div>
+      </div>
+
+      <div
+        id={id || "invoice-print"}
+        className={`invoice-container paper-${paperSize.toLowerCase()}`}
+      >
         {/* ===== HEADER SECTION ===== */}
         <div className="invoice-header-row">
           <div className="invoice-company-info">
